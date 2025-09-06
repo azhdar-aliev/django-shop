@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load static %}
+{% load carts_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="{% static 'shop_app/css/base.css' %}"/>-->
+    <link rel="stylesheet" href="{% static 'shop_app/css/swiper.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'shop_app/css/tabler-icons-outline.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'shop_app/css/login.css' %}"/>
+    <link rel="stylesheet" href="{% static 'shop_app/css/styles.css' %}"/>
+
+</head>
+
+<body class="page_product">
+
+    <div class="wrap">
+
+        <div class="mobile_menu">
+            <a href="{% url 'shop_app:home'%}" class="mobile_menu_item active">
+                <i class="ti ti-home"></i>
+            </a>
+            <div class="mobile_menu_item mobile_menu_item_catalog">
+                <i class="ti ti-list-search"></i>
+            </div>
+            <a href="{% url 'carts:cart_detail' %}" class="mobile_menu_item">
+                <span>
+                <i class="ti ti-shopping-cart"></i>
+                {% user_carts request as carts %}
+
+                <div class="header_option_count header_option_count_mobile">{{ carts.total_quantity }}</div>
+                </span>
+            </a>
+            <a href="{% url 'orders:order'%}" class="mobile_menu_item">
+                <span>
+                <i class="ti ti-truck-delivery"></i>
+                </span>
+            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:profile' %}" class="mobile_menu_item">
+                    <i class="ti ti-user-circle"></i>
+                </a>
+            {% else %}
+                <a href="{% url 'users:login' %}" class="mobile_menu_item">
+                    <i class="ti ti-user-circle"></i>
+                </a>
+            {% endif %}
+        </div>
+
+
+        <div> User: {{ user }}</div>
+
+
+        <header class="header">
+            <div class="container">
+                <a href="{% url 'shop_app:home'%}">
+                    <div class="logo"><img src="{% static 'shop_app/images/logo/logo2.jpg' %}"></div>
+                </a>
+
+                    <div class="menu">
+                        <div class="menu_catalog">
+                            <div class="menu_toggle"></div>
+                            <span>Каталог</span>
+                        </div>
+                        <nav class="menu_nav">
+                            {% for category in categories %}
+                            <ul class="menu_items">
+                                <li class="menu_item">
+                                    <a href="{% url 'shop_app:product_list_by_category' category.slug %}" class="menu_item_link">{{category.name}}</a>
+                                </li>
+                            </ul>
+                            {% endfor%}
+                        </nav>
+                    </div>
+
+                    <form class="header_search" action="{% url 'shop_app:search' %}" method="get">
+                        <input type="search" name="q" class="header_search_input" placeholder="Поиск ..." required>
+                        <button type="submit" class="header_search_button"><i class="ti ti-search"></i></button>
+                    </form>
+
+                    <div class="header_options">
+                        <a href="{% url 'orders:order' %}" class="header_option header_favorites">
+                            <i class="ti ti-truck-delivery"></i>
+                        </a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'users:profile' %}" class="header_option header_profile">
+                            <div class="login_account">
+                            <i class="ti ti-user-circle"></i>
+                            <span>Профиль</span>
+                            </div>
+                         </a>
+                        {% else %}
+                        <a href="{% url 'users:login' %}" class="header_option header_profile">
+                            <div class="login_account">
+                            <i class="ti ti-user-circle"></i>
+                            <span>Войти</span>
+                            </div>
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'carts:cart_detail' %}" class="header_option header_cart">
+                            <i class="ti ti-shopping-cart"></i>
+                            {% user_carts request as carts %}
+
+                            <div class="header_option_count">{{ carts.total_quantity }}</div>
+                        </a>
+                    </div>
+
+            </div>
+        </header>
+
+{% block content %}
+{% endblock %}
+
+        <footer class="footer">
+            <div class="indent container">
+                <p>© 2023 - <span class="curr_year"></span> Online-shop. Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint veniam soluta, facere dolores blanditiis animi aperiam accusantium quam perferendis sequi id maiores. Corrupti laboriosam delectus aperiam odit earum provident modi.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="notice">
+        <i class="ti ti-check"></i>
+        <p></p>
+    </div>
+<script src="{% static 'shop_app/js/swiper.min.js' %}"></script>
+<script src="{% static 'shop_app/js/main.js' %}"></script>
+
+</body>
+
+</html>

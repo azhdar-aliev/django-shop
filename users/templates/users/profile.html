@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load carts_tags %}
+
+{% block content %}
+<div class="wrapper">
+    <h1>Профиль</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if user.photo %}
+        <img src="{{ user.photo.url }}">
+        {% else %}
+        <img src="{{ default_image }}">
+        {% endif %}
+
+
+        {% for f in form %}
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        <button class="btn mt-5" type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'users:password_change' %}">Сменить пороль</a>
+    <a href="{% url 'users:logout' %}" class="header_option header_profile">
+        <div class="login_account">
+            <i class="ti ti-logout"></i>
+            <span>Выйти</span>
+        </div>
+    </a>
+</div>
+<div class="container indent">
+    <a class="profile-order" href="{% url 'orders:order' %}">Мои Заказы</a>
+</div>
+
+{% endblock %}

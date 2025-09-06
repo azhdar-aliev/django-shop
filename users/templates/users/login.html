@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="wrapper">
+        <div class="logo">
+            <img src="https://www.freepnglogos.com/uploads/shopee-logo-png/shopee-logo--24.png" alt="">
+        </div>
+        <div class="text-center mt-4 name">
+            Shop
+        </div>
+        <form class="p-3 mt-3" method="post">
+            {% csrf_token %}
+            <div class="form-field d-flex align-items-center">
+                <span class="far fa-user"></span>
+                <input type="text" name="username" id="userName" placeholder="Username">
+            </div>
+            <div class="form-field d-flex align-items-center">
+                <span class="fas fa-key"></span>
+                <input type="password" name="password" id="pwd" placeholder="Password">
+            </div>
+            {{ form.errors}}
+            <button class="btn mt-3">Login</button>
+        </form>
+        <div class="text-center fs-6">
+            <a href="{% url 'users:password_reset' %}">Забыли пороль?</a> or <a href="{% url 'users:register' %}">Register</a>
+        </div>
+    </div>
+{% endblock %}

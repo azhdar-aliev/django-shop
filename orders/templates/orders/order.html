@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load carts_tags %}
+
+{% block content %}
+    <h1>Мои заказы</h1>
+  <ul>
+    {% for order in orders %}
+      <li class="order-item">
+        Заказ № {{ order.pk }} | Дата создания: {{ order.created_timestamp }}
+        {% if order.user %}
+          | Покупатель: {{ order.user.first_name }} {{ order.user.last_name }}
+          | {{order.status}}
+        {% endif %}
+        <ul>
+          {% for item in order.items %}
+            <li>
+              {{ item.name }} ({{ item.quantity }} шт.) - {{ item.price }}
+            </li>
+
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
